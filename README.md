@@ -1,10 +1,6 @@
 Sample file with the script:
 https://docs.google.com/spreadsheets/d/1fyvd5J1LbL5j-WClyY-YE03AgyC9K4vfRgarQ9Cwl7Q/edit?gid=671858142#gid=671858142
 
-Here is the English version of the documentation, fully optimized and perfectly structured for your GitHub **`README.md`** file. 
-
-You can simply copy and paste the text below:
-
 ---
 
 # 🚀 VAPT Report Automation - Infrastructure VA (Google Apps Script)
