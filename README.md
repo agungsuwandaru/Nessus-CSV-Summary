@@ -136,4 +136,3 @@ The script uses Regex to map columns. Therefore, the headers in the first row of
 * **Permission Error:** Ensure the Google account running the script has at least *Viewer* access to the inputted *Source Sheet* URL.
 
 ---
-*Developed for Internal VAPT Automation.*
