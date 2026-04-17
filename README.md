@@ -1,60 +1,63 @@
+Sample file with the script:
+https://docs.google.com/spreadsheets/d/1fyvd5J1LbL5j-WClyY-YE03AgyC9K4vfRgarQ9Cwl7Q/edit?gid=671858142#gid=671858142
+
 # ⚡ Automation VAPT - VA Infra Findings Collector
 
-Repository ini berisi Google Apps Script (GAS) untuk mengotomatisasi proses rekapitulasi temuan (*findings*) Vulnerability Assessment (VA) Infrastructure. Script ini berfungsi untuk menarik data hasil *scan* dari berbagai *Source Sheet* klien ke dalam satu *Target Sheet* secara terpusat.
+This repository contains a Google Apps Script (GAS) designed to automate the recapitulation of Vulnerability Assessment (VA) Infrastructure findings. The script extracts raw scan data from various client *Source Sheets* into a single, centralized *Target Sheet*.
 
-## 🚀 Fitur Utama
+## 🚀 Key Features
 
-* **Custom Menu Integration:** Menambahkan menu kustom `⚡ VAPT TOOLS` langsung di Google Sheets untuk eksekusi script yang mudah.
-* **Auto-Reset & Format:** Otomatis membersihkan data lama di *Target Sheet* dan membuat *header* baru setiap kali dijalankan.
-* **Smart Column Mapping (Regex):** Mencari letak kolom `IP`, `Risk`, dan `Finding Name` di *Source Sheet* secara dinamis tanpa terikat pada urutan kolom yang kaku.
-* **Smart Filtering:** Otomatis membuang baris kosong yang tidak memiliki data *IP* atau *Finding*.
-* **Auto-Uncheck:** Mencegah duplikasi data dengan menghilangkan centang (*uncheck*) pada baris *task* yang sudah berhasil diproses.
+* **Custom Menu Integration:** Adds a custom `⚡ VAPT TOOLS` menu directly in the Google Sheets UI for easy script execution.
+* **Auto-Reset & Format:** Automatically clears old data in the *Target Sheet* and generates a new, clean header every time it runs.
+* **Smart Column Mapping (Regex):** Dynamically locates the `IP`, `Risk`, and `Finding Name` columns in the *Source Sheet* without relying on strict column orders.
+* **Smart Filtering:** Automatically skips empty rows that do not contain valid *IP* or *Finding* data.
+* **Auto-Uncheck:** Prevents data duplication by automatically unchecking the task row once the data has been successfully extracted.
 
-## 📋 Prasyarat Struktur Data
+## 📋 Data Structure Prerequisites
 
-Agar script berjalan dengan lancar, pastikan Google Sheets Anda memiliki struktur berikut:
+For the script to run smoothly, ensure your Google Sheets follow this structure:
 
-### 1. Control Sheet (Sheet Utama)
-Harus memiliki kolom dengan nama *header* persis seperti berikut:
-* `Update`: Berisi teks penanda *task* (misal: `Check Finding - General VA Infra`).
-* `Run`: Berisi *checkbox* (`TRUE`/`FALSE`).
-* `Source Sheet`: Berisi URL lengkap Google Sheets sumber atau cukup ID-nya saja.
-* `Source Tab`: Berisi nama tab spesifik di dalam file sumber tersebut.
+### 1. Control Sheet (Main Sheet)
+Must have columns with the exact following headers:
+* `Update`: Contains the task identifier (e.g., `Check Finding - General VA Infra`).
+* `Run`: Contains a checkbox (`TRUE`/`FALSE`).
+* `Source Sheet`: Contains the full Google Sheets URL or the Spreadsheet ID.
+* `Source Tab`: Contains the specific tab name within the source file.
 
-### 2. Source Sheet (File Sumber / Hasil Scan)
-Script menggunakan Regex untuk mencari kolom, sehingga *header* di baris pertama file sumber harus mengandung kata kunci berikut (tidak *case-sensitive*):
-* **Kolom Scope/IP:** `scope`, `ip`, `host`, atau `target`
-* **Kolom Risk:** `risk`, `severity`, atau `level`
-* **Kolom Finding:** `finding`, `vulnerability`, `name`, `title`, atau `plugin name`
+### 2. Source Sheet (Raw Scan Results)
+The script uses Regex to map columns. Therefore, the headers in the first row of the source file must contain the following keywords (case-insensitive):
+* **Scope/IP Column:** `scope`, `ip`, `host`, or `target`
+* **Risk Column:** `risk`, `severity`, or `level`
+* **Finding Column:** `finding`, `vulnerability`, `name`, `title`, or `plugin name`
 
-## 🛠️ Langkah Instalasi (Step-by-Step)
+## 🛠️ Installation Steps
 
-1. Buka file Google Sheets yang ingin Anda jadikan *Control Center*.
-2. Pada menu atas, klik **Extensions > Apps Script** (Ekstensi > Apps Script).
-3. Hapus kode bawaan `function myFunction() { ... }` yang ada di editor.
-4. Buat dua file script (`.gs`) dengan struktur berikut:
-   * **`menu.gs`**: Berisi fungsi `onOpen()` untuk memunculkan menu di UI Google Sheets.
-   * **`RunVaInfraCheckFinding.gs`**: Berisi fungsi utama `collectVAInfraFindings()` untuk logika penarikan data.
-5. *Copy-paste* kode dari *repository* ini ke dalam file masing-masing.
-6. Simpan *project* dengan klik ikon **Save** (💾).
-7. Kembali ke Google Sheets Anda, lalu *refresh* halaman (F5).
-8. Menu `⚡ VAPT TOOLS` akan muncul di samping menu *Help* / *Bantuan*.
+1. Open the Google Sheets file you want to use as your *Control Center*.
+2. From the top menu, click **Extensions > Apps Script**.
+3. Delete the default `function myFunction() { ... }` code in the editor.
+4. Create two script files (`.gs`) with the following logic:
+   * **`menu.gs`**: Contains the `onOpen()` function to display the custom menu.
+   * **`RunVaInfraCheckFinding.gs`**: Contains the main `collectVAInfraFindings()` function for the data extraction logic.
+5. Copy and paste the code from this repository into their respective files.
+6. Save the project by clicking the **Save** icon (💾).
+7. Go back to your Google Sheets and refresh the page (F5).
+8. The `⚡ VAPT TOOLS` menu will appear next to the *Help* menu.
 
-## 💡 Cara Penggunaan
+## 💡 Usage Guide
 
-1. Buka tab *Control Sheet*.
-2. Isi data *task* Anda. Pastikan kolom **Update** diisi dengan `Check Finding - General VA Infra`.
-3. Centang *checkbox* pada kolom **Run** untuk file yang datanya ingin ditarik.
-4. Klik menu **⚡ VAPT TOOLS > Conversion Report - VA Infra** di Google Sheets.
-5. Saat pertama kali dijalankan, Google akan meminta otorisasi. Klik **Continue > Pilih Akun > Advanced > Go to Script**.
-6. Tunggu beberapa detik, *pop-up* akan muncul saat proses selesai.
-7. Hasil rekapitulasi dapat dilihat pada tab **General VA Infra - Check Finding**.
+1. Open the *Control Sheet* tab.
+2. Fill in your task details. Ensure the **Update** column is exactly `Check Finding - General VA Infra`.
+3. Check the box in the **Run** column for the files you want to process.
+4. Click the **⚡ VAPT TOOLS > Conversion Report - VA Infra** menu in Google Sheets.
+5. Upon the first run, Google will prompt for authorization. Click **Continue > Choose your Google Account > Advanced > Go to Script**.
+6. Wait a few seconds until the success pop-up appears.
+7. The consolidated results can be viewed in the **General VA Infra - Check Finding** tab.
 
 ## ⚠️ Troubleshooting
 
-* **Menu tidak muncul:** Pastikan hanya ada **satu** fungsi `onOpen()` di seluruh *project* Apps Script Anda.
-* **Data tidak masuk:** Periksa kembali nama *header* di file sumber. Pastikan mengandung kata kunci yang dikenali oleh Regex.
-* **Error Permission:** Pastikan akun Google yang menjalankan script memiliki akses minimal *Viewer* ke URL *Source Sheet* yang diinput.
+* **Menu does not appear:** Ensure there is only **one** `onOpen()` function across your entire Apps Script project. Multiple `onOpen()` functions will conflict and cause the menu to fail.
+* **Data not imported:** Double-check the headers in your source file. Make sure they contain the recognizable Regex keywords mentioned above.
+* **Permission Error:** Ensure the Google account running the script has at least *Viewer* access to the inputted *Source Sheet* URL.
 
 ---
 *Developed for Internal VAPT Automation.*
